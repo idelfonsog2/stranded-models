@@ -184,19 +184,15 @@ public struct FlightInformation: Codable {
     }
     
     public struct FlightInfo: Codable {
-        public init(airport: FlightInformation.Airport, scheduledTimeLocal: Date? = nil, actualTimeLocal: Date? = nil, scheduledTimeUtc: Date? = nil, actualTimeUtc: Date? = nil, terminal: String, gate: String) {
+        public init(airport: FlightInformation.Airport, scheduledTimeUtc: String? = nil, actualTimeUtc: String? = nil, terminal: String, gate: String) throws {
             self.airport = airport
-            self.scheduledTimeLocal = scheduledTimeLocal
-            self.actualTimeLocal = actualTimeLocal
-            self.scheduledTimeUtc = scheduledTimeUtc
-            self.actualTimeUtc = actualTimeUtc
+            self.scheduledTimeUtc = try scheduledTimeUtc?.internetDate
+            self.actualTimeUtc = try actualTimeUtc?.internetDate
             self.terminal = terminal
             self.gate = gate
         }
         
         public var airport: Airport
-        public var scheduledTimeLocal: Date?
-        public var actualTimeLocal: Date?
         public var scheduledTimeUtc: Date?
         public var actualTimeUtc: Date?
         public var terminal: String
@@ -227,5 +223,18 @@ public struct FlightInformation: Codable {
         
         public var lat: Double
         public var lon: Double
+    }
+}
+
+extension String {
+    var internetDate: Date {
+        get throws {
+            let f = DateFormatter()
+            f.dateFormat = "yyyy-MM-dd HH:mmZ"
+            if let date = f.date(from: self) {
+                return date
+            }
+            return Date()
+        }
     }
 }
