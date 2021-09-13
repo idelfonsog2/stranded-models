@@ -8,78 +8,78 @@
 import Foundation
 
 public struct UserRequest: Codable {
-    var id: UUID?
-    let apiToken: String?
-    var name: String?
-    var email: String?
-    var deviceToken: String?
-    var profileImage: Data?
-    var subscriptionId: UUID?
+    public var id: UUID?
+    public let apiToken: String?
+    public var name: String?
+    public var email: String?
+    public var deviceToken: String?
+    public var profileImage: Data?
+    public var subscriptionId: UUID?
 }
 
 public typealias UserResponse = UserRequest
 
 public struct SubscriptionRequest: Codable {
-    var airportId: UUID
-    var userId: UUID
-    var departureDate: Date
-    var gate: String?
-    var terminal: String?
+    public var airportId: UUID
+    public var userId: UUID
+    public var departureDate: Date
+    public var gate: String?
+    public var terminal: String?
 }
 
 public struct FlightInfoResponse: Codable {
-    var number: String?
-    var status: String?
-    var iataDeparture: String?
-    var iataArrival: String?
-    var departureAirportName: String?
-    var departureLatitude: Double?
-    var departureLongitude: Double?
-    var departureCountry: String?
-    var departureScheduledTime: Date?
-    var departureGate: String?
-    var departureTerminal: String?
-    var arrivalAirportName: String?
-    var arrivalLatitude: Double?
-    var arrivalLongitude: Double?
-    var arrivalCountry: String?
-    var arrivalScheduledTime: Date?
-    var arrivalGate: String?
-    var arrivalTerminal: String?
+    public var number: String?
+    public var status: String?
+    public var iataDeparture: String?
+    public var iataArrival: String?
+    public var departureAirportName: String?
+    public var departureLatitude: Double?
+    public var departureLongitude: Double?
+    public var departureCountry: String?
+    public var departureScheduledTime: Date?
+    public var departureGate: String?
+    public var departureTerminal: String?
+    public var arrivalAirportName: String?
+    public var arrivalLatitude: Double?
+    public var arrivalLongitude: Double?
+    public var arrivalCountry: String?
+    public var arrivalScheduledTime: Date?
+    public var arrivalGate: String?
+    public var arrivalTerminal: String?
 }
 
 public struct FlightInformation: Codable {
-    var departure: FlightInfo
-    var arrival: FlightInfo
-    var lastUpdatedUtc: String
-    var number: String
-    var status: String
-    var airline: Airline
+    public var departure: FlightInfo
+    public var arrival: FlightInfo
+    public var lastUpdatedUtc: String
+    public var number: String
+    public var status: String
+    public var airline: Airline
     
-    struct Airline: Codable {
-        var name: String
+    public struct Airline: Codable {
+        public var name: String
     }
     
-    struct FlightInfo: Codable {
-        var airport: Airport
-        var scheduledTimeLocal: Date?
-        var actualTimeLocal: Date?
-        var scheduledTimeUtc: Date?
-        var actualTimeUtc: Date?
-        var terminal: String
-        var gate: String
+    public struct FlightInfo: Codable {
+        public var airport: Airport
+        public var scheduledTimeLocal: Date?
+        public var actualTimeLocal: Date?
+        public var scheduledTimeUtc: Date?
+        public var actualTimeUtc: Date?
+        public var terminal: String
+        public var gate: String
     }
 
-    struct Airport: Codable {
-        var icao: String
-        var iata: String
-        var name: String
-        var shortName: String
-        var municipalityName: String
+    public struct Airport: Codable {
+        public var icao: String
+        public var iata: String
+        public var name: String
+        public var shortName: String
+        public var municipalityName: String
     }
     
-    struct Location: Codable {
-        var lat: Double
-        var lon: Double
+    public struct Location: Codable {
+        public var lat: Double
+        public var lon: Double
     }
 }
