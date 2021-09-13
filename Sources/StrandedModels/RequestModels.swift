@@ -52,7 +52,10 @@ public struct SubscriptionRequest: Codable {
 
 extension SubscriptionRequest: Hashable, Identifiable { }
 
+public typealias SubscriptionResponse = SubscriptionRequest
+
 /// This is a passthrough object
+/// deprecate
 public struct FlightInfoResponse: Codable {
     public init(number: String? = nil, status: String? = nil, iataDeparture: String? = nil, iataArrival: String? = nil, departureAirportName: String? = nil, departureLatitude: Double? = nil, departureLongitude: Double? = nil, departureCountry: String? = nil, departureScheduledTime: Date? = nil, departureGate: String? = nil, departureTerminal: String? = nil, arrivalAirportName: String? = nil, arrivalLatitude: Double? = nil, arrivalLongitude: Double? = nil, arrivalCountry: String? = nil, arrivalScheduledTime: Date? = nil, arrivalGate: String? = nil, arrivalTerminal: String? = nil) {
         self.number = number
