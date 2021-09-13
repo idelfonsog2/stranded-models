@@ -99,50 +99,6 @@ public struct SubscriptionResponse: Codable {
 
 extension SubscriptionResponse: Hashable, Identifiable { }
 
-/// This is a passthrough object
-/// deprecate
-public struct FlightInfoResponse: Codable {
-    public init(number: String? = nil, status: String? = nil, iataDeparture: String? = nil, iataArrival: String? = nil, departureAirportName: String? = nil, departureLatitude: Double? = nil, departureLongitude: Double? = nil, departureCountry: String? = nil, departureScheduledTime: Date? = nil, departureGate: String? = nil, departureTerminal: String? = nil, arrivalAirportName: String? = nil, arrivalLatitude: Double? = nil, arrivalLongitude: Double? = nil, arrivalCountry: String? = nil, arrivalScheduledTime: Date? = nil, arrivalGate: String? = nil, arrivalTerminal: String? = nil) {
-        self.number = number
-        self.status = status
-        self.iataDeparture = iataDeparture
-        self.iataArrival = iataArrival
-        self.departureAirportName = departureAirportName
-        self.departureLatitude = departureLatitude
-        self.departureLongitude = departureLongitude
-        self.departureCountry = departureCountry
-        self.departureScheduledTime = departureScheduledTime
-        self.departureGate = departureGate
-        self.departureTerminal = departureTerminal
-        self.arrivalAirportName = arrivalAirportName
-        self.arrivalLatitude = arrivalLatitude
-        self.arrivalLongitude = arrivalLongitude
-        self.arrivalCountry = arrivalCountry
-        self.arrivalScheduledTime = arrivalScheduledTime
-        self.arrivalGate = arrivalGate
-        self.arrivalTerminal = arrivalTerminal
-    }
-    
-    public var number: String?
-    public var status: String?
-    public var iataDeparture: String?
-    public var iataArrival: String?
-    public var departureAirportName: String?
-    public var departureLatitude: Double?
-    public var departureLongitude: Double?
-    public var departureCountry: String?
-    public var departureScheduledTime: Date?
-    public var departureGate: String?
-    public var departureTerminal: String?
-    public var arrivalAirportName: String?
-    public var arrivalLatitude: Double?
-    public var arrivalLongitude: Double?
-    public var arrivalCountry: String?
-    public var arrivalScheduledTime: Date?
-    public var arrivalGate: String?
-    public var arrivalTerminal: String?
-}
-
 /// This is domain transfer object
 public struct FlightInformation: Codable {
     public static let sampleURL = Bundle.module.url(forResource: "flight_information", withExtension: "json")!
@@ -157,7 +113,7 @@ public struct FlightInformation: Codable {
     }
     
     /// #deprecated
-    /// - Returns: 
+    /// - Returns:
     public static func mockedFlightInformation() throws -> FlightInformation {
         guard let url = Bundle.module.url(forResource: "flight_information", withExtension: "json") else {
             throw APIError.malformedURL
@@ -189,15 +145,15 @@ public struct FlightInformation: Codable {
     public struct FlightInfo: Codable {
         public init(airport: FlightInformation.Airport, scheduledTimeUtc: String? = nil, actualTimeUtc: String? = nil, terminal: String, gate: String) throws {
             self.airport = airport
-            self.scheduledTimeUtc = try scheduledTimeUtc?.internetDate
-            self.actualTimeUtc = try actualTimeUtc?.internetDate
+            self.scheduledTimeUtc = scheduledTimeUtc
+            self.actualTimeUtc = actualTimeUtc
             self.terminal = terminal
             self.gate = gate
         }
         
         public var airport: Airport
-        public var scheduledTimeUtc: Date?
-        public var actualTimeUtc: Date?
+        public var scheduledTimeUtc: String?
+        public var actualTimeUtc: String?
         public var terminal: String
         public var gate: String
     }
