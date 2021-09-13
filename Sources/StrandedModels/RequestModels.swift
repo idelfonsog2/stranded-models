@@ -145,6 +145,7 @@ public struct FlightInfoResponse: Codable {
 
 /// This is domain transfer object
 public struct FlightInformation: Codable {
+    public static let sampleURL = Bundle.module.url(forResource: "flight_information", withExtension: "json")!
     
     public init(departure: FlightInformation.FlightInfo, arrival: FlightInformation.FlightInfo, lastUpdatedUtc: String, number: String, status: String, airline: FlightInformation.Airline) {
         self.departure = departure
@@ -155,6 +156,8 @@ public struct FlightInformation: Codable {
         self.airline = airline
     }
     
+    /// #deprecated
+    /// - Returns: 
     public static func mockedFlightInformation() throws -> FlightInformation {
         guard let url = Bundle.module.url(forResource: "flight_information", withExtension: "json") else {
             throw APIError.malformedURL
