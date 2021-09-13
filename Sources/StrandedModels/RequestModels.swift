@@ -75,7 +75,21 @@ public struct SubscriptionRequest: Codable {
 
 extension SubscriptionRequest: Hashable, Identifiable { }
 
-public typealias SubscriptionResponse = SubscriptionRequest
+public struct SubscriptionResponse: Codable {
+    public init(name: String? = nil, departureDate: Date, gate: String? = nil, terminal: String? = nil, profileImage: Data? = nil) {
+        self.name = name
+        self.departureDate = departureDate
+        self.gate = gate
+        self.terminal = terminal
+        self.profileImage = profileImage
+    }
+    
+    public var name: String?
+    public var departureDate: Date
+    public var gate: String?
+    public var terminal: String?
+    public var profileImage: Data?
+}
 
 /// This is a passthrough object
 /// deprecate
