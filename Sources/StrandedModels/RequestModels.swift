@@ -100,6 +100,15 @@ public struct FlightInfoResponse: Codable {
 
 /// This is domain transfer object
 public struct FlightInformation: Codable {
+    public init(departure: FlightInformation.FlightInfo, arrival: FlightInformation.FlightInfo, lastUpdatedUtc: String, number: String, status: String, airline: FlightInformation.Airline) {
+        self.departure = departure
+        self.arrival = arrival
+        self.lastUpdatedUtc = lastUpdatedUtc
+        self.number = number
+        self.status = status
+        self.airline = airline
+    }
+    
     public var departure: FlightInfo
     public var arrival: FlightInfo
     public var lastUpdatedUtc: String
@@ -108,10 +117,24 @@ public struct FlightInformation: Codable {
     public var airline: Airline
     
     public struct Airline: Codable {
+        public init(name: String) {
+            self.name = name
+        }
+        
         public var name: String
     }
     
     public struct FlightInfo: Codable {
+        public init(airport: FlightInformation.Airport, scheduledTimeLocal: Date? = nil, actualTimeLocal: Date? = nil, scheduledTimeUtc: Date? = nil, actualTimeUtc: Date? = nil, terminal: String, gate: String) {
+            self.airport = airport
+            self.scheduledTimeLocal = scheduledTimeLocal
+            self.actualTimeLocal = actualTimeLocal
+            self.scheduledTimeUtc = scheduledTimeUtc
+            self.actualTimeUtc = actualTimeUtc
+            self.terminal = terminal
+            self.gate = gate
+        }
+        
         public var airport: Airport
         public var scheduledTimeLocal: Date?
         public var actualTimeLocal: Date?
@@ -122,6 +145,14 @@ public struct FlightInformation: Codable {
     }
 
     public struct Airport: Codable {
+        public init(icao: String, iata: String, name: String, shortName: String, municipalityName: String) {
+            self.icao = icao
+            self.iata = iata
+            self.name = name
+            self.shortName = shortName
+            self.municipalityName = municipalityName
+        }
+        
         public var icao: String
         public var iata: String
         public var name: String
@@ -130,6 +161,11 @@ public struct FlightInformation: Codable {
     }
     
     public struct Location: Codable {
+        public init(lat: Double, lon: Double) {
+            self.lat = lat
+            self.lon = lon
+        }
+        
         public var lat: Double
         public var lon: Double
     }
