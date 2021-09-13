@@ -73,8 +73,6 @@ public struct SubscriptionRequest: Codable {
     public var terminal: String?
 }
 
-extension SubscriptionResponse: Hashable, Identifiable { }
-
 /// This is domain transfer object
 public struct SubscriptionResponse: Codable {
     public init(id: UUID?, name: String? = nil, departureDate: Date, gate: String? = nil, terminal: String? = nil, profileImage: Data? = nil) {
@@ -93,6 +91,8 @@ public struct SubscriptionResponse: Codable {
     public var terminal: String?
     public var profileImage: Data?
 }
+
+extension SubscriptionResponse: Hashable, Identifiable { }
 
 /// This is a passthrough object
 /// deprecate
@@ -140,7 +140,7 @@ public struct FlightInfoResponse: Codable {
 
 /// This is domain transfer object
 public struct FlightInformation: Codable {
-    public static let sample = Bundle.module.path(forResource: "flight_information", ofType: "json")
+    public static let sampleURL = Bundle.module.url(forResource: "flight_information", withExtension: "json")
     
     public init(departure: FlightInformation.FlightInfo, arrival: FlightInformation.FlightInfo, lastUpdatedUtc: String, number: String, status: String, airline: FlightInformation.Airline) {
         self.departure = departure
