@@ -77,7 +77,7 @@ extension SubscriptionResponse: Hashable, Identifiable { }
 
 /// This is domain transfer object
 public struct SubscriptionResponse: Codable {
-    internal init(id: UUID?, name: String? = nil, departureDate: Date, gate: String? = nil, terminal: String? = nil, profileImage: Data? = nil) {
+    public init(id: UUID?, name: String? = nil, departureDate: Date, gate: String? = nil, terminal: String? = nil, profileImage: Data? = nil) {
         self.id = id
         self.name = name
         self.departureDate = departureDate
