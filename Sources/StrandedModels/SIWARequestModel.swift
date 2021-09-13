@@ -30,7 +30,7 @@
 /// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 /// THE SOFTWARE.
 
-struct SIWARequestBody: Codable {
+public struct SIWARequestBody: Codable {
   let name: String
   let email: String
   let appleIdentityToken: String
