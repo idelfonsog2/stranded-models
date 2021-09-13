@@ -73,10 +73,12 @@ public struct SubscriptionRequest: Codable {
     public var terminal: String?
 }
 
-extension SubscriptionRequest: Hashable, Identifiable { }
+extension SubscriptionResponse: Hashable, Identifiable { }
 
+/// This is domain transfer object
 public struct SubscriptionResponse: Codable {
-    public init(name: String? = nil, departureDate: Date, gate: String? = nil, terminal: String? = nil, profileImage: Data? = nil) {
+    internal init(id: UUID?, name: String? = nil, departureDate: Date, gate: String? = nil, terminal: String? = nil, profileImage: Data? = nil) {
+        self.id = id
         self.name = name
         self.departureDate = departureDate
         self.gate = gate
@@ -84,6 +86,7 @@ public struct SubscriptionResponse: Codable {
         self.profileImage = profileImage
     }
     
+    public let id: UUID?
     public var name: String?
     public var departureDate: Date
     public var gate: String?
