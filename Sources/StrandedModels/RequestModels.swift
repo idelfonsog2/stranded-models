@@ -123,7 +123,7 @@ public struct FlightInfoResponse: Codable {
 
 /// This is domain transfer object
 public struct FlightInformation: Codable {
-    static let sample = Bundle.module.path(forResource: "flight_information", ofType: "json")
+    public static let sample = Bundle.module.path(forResource: "flight_information", ofType: "json")
     
     public init(departure: FlightInformation.FlightInfo, arrival: FlightInformation.FlightInfo, lastUpdatedUtc: String, number: String, status: String, airline: FlightInformation.Airline) {
         self.departure = departure
