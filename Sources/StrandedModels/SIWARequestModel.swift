@@ -31,7 +31,7 @@
 /// THE SOFTWARE.
 
 public struct SIWARequestBody: Codable {
-  let name: String
-  let email: String
-  let appleIdentityToken: String
+    public let name: String
+    public let email: String
+    public let appleIdentityToken: String
 }
