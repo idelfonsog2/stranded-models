@@ -7,6 +7,7 @@
 
 import Foundation
 
+/// This is domain transfer object
 public struct UserRequest: Codable {
     
     public var id: UUID?
@@ -30,8 +31,10 @@ public struct UserRequest: Codable {
 
 public typealias UserResponse = UserRequest
 
+/// This is domain transfer object
 public struct SubscriptionRequest: Codable {
-    public init(airportId: UUID, userId: UUID, departureDate: Date, gate: String? = nil, terminal: String? = nil) {
+    public init(id: UUID?, airportId: UUID, userId: UUID, departureDate: Date, gate: String? = nil, terminal: String? = nil) {
+        self.id = id
         self.airportId = airportId
         self.userId = userId
         self.departureDate = departureDate
@@ -39,6 +42,7 @@ public struct SubscriptionRequest: Codable {
         self.terminal = terminal
     }
     
+    public let id: UUID?
     public var airportId: UUID
     public var userId: UUID
     public var departureDate: Date
@@ -46,6 +50,9 @@ public struct SubscriptionRequest: Codable {
     public var terminal: String?
 }
 
+extension SubscriptionRequest: Hashable, Identifiable { }
+
+/// This is a passthrough object
 public struct FlightInfoResponse: Codable {
     public init(number: String? = nil, status: String? = nil, iataDeparture: String? = nil, iataArrival: String? = nil, departureAirportName: String? = nil, departureLatitude: Double? = nil, departureLongitude: Double? = nil, departureCountry: String? = nil, departureScheduledTime: Date? = nil, departureGate: String? = nil, departureTerminal: String? = nil, arrivalAirportName: String? = nil, arrivalLatitude: Double? = nil, arrivalLongitude: Double? = nil, arrivalCountry: String? = nil, arrivalScheduledTime: Date? = nil, arrivalGate: String? = nil, arrivalTerminal: String? = nil) {
         self.number = number
@@ -88,6 +95,7 @@ public struct FlightInfoResponse: Codable {
     public var arrivalTerminal: String?
 }
 
+/// This is domain transfer object
 public struct FlightInformation: Codable {
     public var departure: FlightInfo
     public var arrival: FlightInfo
