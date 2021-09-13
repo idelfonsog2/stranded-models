@@ -31,6 +31,29 @@ public struct UserRequest: Codable {
 
 public typealias UserResponse = UserRequest
 
+public class User: Codable { }
+
+extension User {
+    public final class Public: Codable {
+        public var name: String?
+        public var profileImage: Data?
+        
+        public init(name: String?, profileImage: Data?) {
+            self.name = name
+            self.profileImage = profileImage
+        }
+    }
+    
+    public final class Private: Codable {
+        public var apiToken: String
+        public var id: UUID
+        public init(apiToken: String, userID: UUID) {
+            self.apiToken = apiToken
+            self.id = userID
+        }
+    }
+}
+
 /// This is domain transfer object
 public struct SubscriptionRequest: Codable {
     public init(id: UUID?, airportId: UUID, userId: UUID, departureDate: Date, gate: String? = nil, terminal: String? = nil) {
@@ -100,6 +123,8 @@ public struct FlightInfoResponse: Codable {
 
 /// This is domain transfer object
 public struct FlightInformation: Codable {
+    static let sample = Bundle.module.path(forResource: "flight_information", ofType: "json")
+    
     public init(departure: FlightInformation.FlightInfo, arrival: FlightInformation.FlightInfo, lastUpdatedUtc: String, number: String, status: String, airline: FlightInformation.Airline) {
         self.departure = departure
         self.arrival = arrival
