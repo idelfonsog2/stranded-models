@@ -14,7 +14,6 @@ public enum APIError: Error {
 
 /// This is domain transfer object
 public struct UserRequest: Codable {
-    
     public var id: UUID?
     public let apiToken: String?
     public var name: String?
@@ -61,8 +60,7 @@ extension User {
 
 /// This is domain transfer object
 public struct SubscriptionRequest: Codable {
-    public init(id: UUID?, airportId: UUID, userId: UUID, departureDate: Date, gate: String? = nil, terminal: String? = nil) {
-        self.id = id
+    public init(airportId: UUID, userId: UUID, departureDate: Date, gate: String? = nil, terminal: String? = nil) {
         self.airportId = airportId
         self.userId = userId
         self.departureDate = departureDate
@@ -70,7 +68,6 @@ public struct SubscriptionRequest: Codable {
         self.terminal = terminal
     }
     
-    public let id: UUID?
     public var airportId: UUID
     public var userId: UUID
     public var departureDate: Date
@@ -80,24 +77,29 @@ public struct SubscriptionRequest: Codable {
 
 /// This is domain transfer object
 public struct SubscriptionResponse: Codable {
-    public init(id: UUID?, name: String? = nil, departureDate: Date, gate: String? = nil, terminal: String? = nil, profileImage: Data? = nil) {
-        self.id = id
-        self.name = name
-        self.departureDate = departureDate
-        self.gate = gate
-        self.terminal = terminal
-        self.profileImage = profileImage
-    }
+    var me: Subscription
+    var others: [Subscription]
     
-    public let id: UUID?
-    public var name: String?
-    public var departureDate: Date
-    public var gate: String?
-    public var terminal: String?
-    public var profileImage: Data?
+    struct Subscription: Codable {
+        public init(id: UUID?, name: String? = nil, departureDate: Date, gate: String? = nil, terminal: String? = nil, profileImage: Data? = nil) {
+            self.id = id
+            self.name = name
+            self.departureDate = departureDate
+            self.gate = gate
+            self.terminal = terminal
+            self.profileImage = profileImage
+        }
+        
+        public let id: UUID?
+        public var name: String?
+        public var departureDate: Date
+        public var gate: String?
+        public var terminal: String?
+        public var profileImage: Data?
+    }
 }
 
-extension SubscriptionResponse: Hashable, Identifiable { }
+extension SubscriptionResponse.Subscription: Hashable, Identifiable { }
 
 /// This is domain transfer object
 public struct FlightInformation: Codable {
@@ -110,21 +112,6 @@ public struct FlightInformation: Codable {
         self.number = number
         self.status = status
         self.airline = airline
-    }
-    
-    /// #deprecated
-    /// - Returns:
-    public static func mockedFlightInformation() throws -> FlightInformation {
-        guard let url = Bundle.module.url(forResource: "flight_information", withExtension: "json") else {
-            throw APIError.malformedURL
-        }
-        
-        let data = try Data(contentsOf: url)
-        guard let value = try JSONDecoder().decode([FlightInformation].self, from: data).first else {
-            throw APIError.malformedURL
-        }
-        
-        return value
     }
     
     public var departure: FlightInfo
@@ -157,7 +144,7 @@ public struct FlightInformation: Codable {
         public var terminal: String?
         public var gate: String?
     }
-
+    
     public struct Airport: Codable {
         public init(icao: String, iata: String, name: String, shortName: String, municipalityName: String) {
             self.icao = icao
