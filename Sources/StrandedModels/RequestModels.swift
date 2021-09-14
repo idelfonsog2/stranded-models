@@ -77,7 +77,7 @@ public struct SubscriptionRequest: Codable {
 
 /// This is domain transfer object
 public struct SubscriptionResponse: Codable {
-    public init(me: SubscriptionResponse.Subscription, others: [SubscriptionResponse.Subscription]) {
+    public init(me: Subscription, others: [Subscription]) {
         self.me = me
         self.others = others
     }
