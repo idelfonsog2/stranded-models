@@ -106,7 +106,7 @@ public struct SubscriptionResponse: Codable {
 
 extension SubscriptionResponse.ItemSubscription: Hashable, Identifiable { }
 
-/// This is domain transfer object
+/// This is domain transfer object between third-party -> strandedAPI -> ios client
 public struct FlightInformation: Codable {
     public static let sampleURL = Bundle.module.url(forResource: "flight_information", withExtension: "json")!
     
@@ -151,7 +151,8 @@ public struct FlightInformation: Codable {
     }
     
     public struct Airport: Codable {
-        public init(icao: String, iata: String, name: String, shortName: String, municipalityName: String) {
+        public init(id: UUID? = nil, icao: String, iata: String, name: String, shortName: String, municipalityName: String) {
+            self.id = id
             self.icao = icao
             self.iata = iata
             self.name = name
@@ -159,6 +160,7 @@ public struct FlightInformation: Codable {
             self.municipalityName = municipalityName
         }
         
+        public var id: UUID? // TODO: This is the ID from the STRANDED API MODEL
         public var icao: String
         public var iata: String
         public var name: String
