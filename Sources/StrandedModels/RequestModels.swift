@@ -77,15 +77,15 @@ public struct SubscriptionRequest: Codable {
 
 /// This is domain transfer object
 public struct SubscriptionResponse: Codable {
-    public init(me: SubscriptionResponse.Subscription, others: [SubscriptionResponse.Subscription]) {
+    public init(me: SubscriptionResponse.ItemSubscription, others: [SubscriptionResponse.ItemSubscription]) {
         self.me = me
         self.others = others
     }
     
-    public var me: Subscription
-    public var others: [Subscription]
+    public var me: ItemSubscription
+    public var others: [ItemSubscription]
     
-    public struct Subscription: Codable {
+    public struct ItemSubscription: Codable {
         public init(id: UUID?, name: String? = nil, departureDate: Date, gate: String? = nil, terminal: String? = nil, profileImage: Data? = nil) {
             self.id = id
             self.name = name
@@ -104,7 +104,7 @@ public struct SubscriptionResponse: Codable {
     }
 }
 
-extension SubscriptionResponse.Subscription: Hashable, Identifiable { }
+extension SubscriptionResponse.ItemSubscription: Hashable, Identifiable { }
 
 /// This is domain transfer object
 public struct FlightInformation: Codable {
