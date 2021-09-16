@@ -31,13 +31,13 @@
 /// THE SOFTWARE.
 
 public struct SIWARequestBody: Codable {
-    public init(name: String, email: String, appleIdentityToken: String) {
+    public init(name: String?, email: String?, appleIdentityToken: String) {
         self.name = name
         self.email = email
         self.appleIdentityToken = appleIdentityToken
     }
     
-    public let name: String
-    public let email: String
+    public let name: String?
+    public let email: String?
     public let appleIdentityToken: String
 }
