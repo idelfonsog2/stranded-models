@@ -15,16 +15,14 @@ public enum APIError: Error {
 /// This is domain transfer object
 public struct UserRequest: Codable {
     public var id: UUID?
-    public let apiToken: String?
     public var name: String?
     public var email: String?
     public var deviceToken: String?
     public var profileImage: Data?
     public var subscriptionId: UUID?
     
-    public init(id: UUID? = nil, apiToken: String?, name: String? = nil, email: String? = nil, deviceToken: String? = nil, profileImage: Data? = nil, subscriptionId: UUID? = nil) {
+    public init(id: UUID? = nil, name: String? = nil, email: String? = nil, deviceToken: String? = nil, profileImage: Data? = nil, subscriptionId: UUID? = nil) {
         self.id = id
-        self.apiToken = apiToken
         self.name = name
         self.email = email
         self.deviceToken = deviceToken
