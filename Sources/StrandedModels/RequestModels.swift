@@ -133,7 +133,7 @@ public struct FlightInformation: Codable {
     }
     
     public struct FlightInfo: Codable {
-        public init(airport: FlightInformation.Airport, scheduledTimeUtc: Date, actualTimeUtc: Date, terminal: String? = nil, gate: String? = nil) {
+        public init(airport: FlightInformation.Airport, scheduledTimeUtc: Date, actualTimeUtc: Date?, terminal: String? = nil, gate: String? = nil) {
             self.airport = airport
             self.scheduledTimeUtc = scheduledTimeUtc
             self.actualTimeUtc = actualTimeUtc
@@ -143,7 +143,7 @@ public struct FlightInformation: Codable {
         
         public var airport: Airport
         public var scheduledTimeUtc: Date
-        public var actualTimeUtc: Date
+        public var actualTimeUtc: Date?
         public var terminal: String?
         public var gate: String?
     }
