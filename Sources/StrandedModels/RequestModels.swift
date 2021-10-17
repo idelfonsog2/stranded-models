@@ -133,25 +133,20 @@ public struct FlightInformation: Codable {
    }
    
    public struct FlightInfo: Codable {
-      public init(airport: FlightInformation.Airport, scheduledTimeUtc: Date, actualTimeUtc: Date?, scheduledTimeLocal: Date?, actualTimeLocal: Date?, terminal: String? = nil, gate: String? = nil) {
+      public init(airport: FlightInformation.Airport, scheduledTimeUtc: Date, scheduledTimeLocal: Date, terminal: String? = nil, gate: String? = nil) {
          self.airport = airport
          self.scheduledTimeUtc = scheduledTimeUtc
-         self.actualTimeUtc = actualTimeUtc
+         self.scheduledTimeLocal = scheduledTimeLocal
          self.terminal = terminal
          self.gate = gate
-         self.scheduledTimeLocal = scheduledTimeLocal
-         self.actualTimeLocal = actualTimeLocal
       }
       
       public var airport: Airport
       public var scheduledTimeUtc: Date
-      public var actualTimeUtc: Date?
+      public var scheduledTimeLocal: Date
       public var terminal: String?
       public var gate: String?
-      public var scheduledTimeLocal: Date? // NOTE: its better cause they are searching the flight on their time zone
-      public var actualTimeLocal: Date?
    }
-   
    
    public struct Airport: Codable {
       public init(id: UUID? = nil, icao: String, iata: String, name: String, shortName: String, municipalityName: String) {
