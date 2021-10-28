@@ -84,7 +84,7 @@ public struct SubscriptionResponse: Codable {
    public var others: [ItemSubscription]
    
    public struct ItemSubscription: Codable {
-      public init(id: UUID?, name: String? = nil, departureDate: Date, gate: String? = nil, terminal: String? = nil, profileImage: Data? = nil) {
+      public init(id: UUID?, name: String? = nil, departureDate: Date?, gate: String? = nil, terminal: String? = nil, profileImage: Data? = nil) {
          self.id = id
          self.name = name
          self.departureDate = departureDate
@@ -95,7 +95,7 @@ public struct SubscriptionResponse: Codable {
       
       public var id: UUID?
       public var name: String?
-      public var departureDate: Date
+      public var departureDate: Date?
       public var gate: String?
       public var terminal: String?
       public var profileImage: Data?
@@ -110,7 +110,7 @@ public struct FlightInformation: Codable {
    
    public init(departure: FlightInformation.FlightInfo,
                arrival: FlightInformation.FlightInfo,
-               lastUpdatedUTC: String,
+               lastUpdatedUTC: Date,
                number: String,
                status: String,
                airline: FlightInformation.Airline?) {
@@ -122,9 +122,24 @@ public struct FlightInformation: Codable {
       self.airline = airline
    }
    
+   public init(from decoder: Decoder) throws {
+      let values = try decoder.container(keyedBy: CodingKeys.self)
+      departure = try values.decode(FlightInformation.FlightInfo.self, forKey: .departure)
+      arrival = try values.decode(FlightInformation.FlightInfo.self, forKey: .arrival)
+      
+      let utcFormatter = DateFormatter() //"2021-10-28 17:15Z"
+      utcFormatter.dateFormat = "yyyy-MM-dd HH:mm'Z'"
+      let lastUpdatedUTCString = try values.decode(String.self, forKey: .lastUpdatedUTC)
+      lastUpdatedUTC = utcFormatter.date(from: lastUpdatedUTCString)
+      
+      number = try values.decode(String.self, forKey: .number)
+      status = try values.decode(String.self, forKey: .status)
+      airline = try values.decode(Airline.self, forKey: .airline)
+   }
+   
    public var departure: FlightInfo
    public var arrival: FlightInfo
-   public var lastUpdatedUTC: String
+   public var lastUpdatedUTC: Date?
    public var number: String
    public var status: String
    public var airline: Airline?
@@ -139,8 +154,8 @@ public struct FlightInformation: Codable {
    
    public struct FlightInfo: Codable {
       public init(airport: FlightInformation.Airport,
-                  scheduledTimeUTC: Date,
-                  scheduledTimeLocal: Date,
+                  scheduledTimeUTC: Date?,
+                  scheduledTimeLocal: Date?,
                   terminal: String? = nil,
                   gate: String? = nil) {
          self.airport = airport
@@ -151,10 +166,28 @@ public struct FlightInformation: Codable {
       }
       
       public var airport: Airport
-      public var scheduledTimeUTC: Date
-      public var scheduledTimeLocal: Date
+      public var scheduledTimeUTC: Date?
+      public var scheduledTimeLocal: Date?
       public var terminal: String?
       public var gate: String?
+      
+      public init(from decoder: Decoder) throws {
+         let values = try decoder.container(keyedBy: CodingKeys.self)
+         let utcFormatter = DateFormatter() //"2021-10-28 17:15Z"
+         utcFormatter.dateFormat = "yyyy-MM-dd HH:mm'Z'"
+         let otherFormatter = DateFormatter() //"2021-10-28 12:15-05:00"
+         otherFormatter.dateFormat = "yyyy-MM-dd HH:mmZ"
+         
+         let scheduledTimeUTCString = try values.decode(String.self, forKey: .scheduledTimeUTC)
+         scheduledTimeUTC = utcFormatter.date(from: scheduledTimeUTCString)
+         
+         let scheduledTimeLocalString = try values.decode(String.self, forKey: .scheduledTimeLocal)
+         scheduledTimeLocal = otherFormatter.date(from: scheduledTimeLocalString)
+         
+         airport = try values.decode(Airport.self, forKey: .airport)
+         terminal = try values.decode(String.self, forKey: .terminal)
+         gate = try values.decode(String.self, forKey: .gate)
+      }
    }
    
    public struct Airport: Codable {
