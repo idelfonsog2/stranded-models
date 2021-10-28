@@ -108,10 +108,15 @@ extension SubscriptionResponse.ItemSubscription: Hashable, Identifiable { }
 public struct FlightInformation: Codable {
    public static let sampleURL = Bundle.module.url(forResource: "flight_information", withExtension: "json")!
    
-   public init(departure: FlightInformation.FlightInfo, arrival: FlightInformation.FlightInfo, lastUpdatedUtc: String, number: String, status: String, airline: FlightInformation.Airline) {
+   public init(departure: FlightInformation.FlightInfo,
+               arrival: FlightInformation.FlightInfo,
+               lastUpdatedUTC: String,
+               number: String,
+               status: String,
+               airline: FlightInformation.Airline?) {
       self.departure = departure
       self.arrival = arrival
-      self.lastUpdatedUtc = lastUpdatedUtc
+      self.lastUpdatedUTC = lastUpdatedUTC
       self.number = number
       self.status = status
       self.airline = airline
@@ -119,10 +124,10 @@ public struct FlightInformation: Codable {
    
    public var departure: FlightInfo
    public var arrival: FlightInfo
-   public var lastUpdatedUtc: String
+   public var lastUpdatedUTC: String
    public var number: String
    public var status: String
-   public var airline: Airline
+   public var airline: Airline?
    
    public struct Airline: Codable {
       public init(name: String) {
@@ -133,37 +138,45 @@ public struct FlightInformation: Codable {
    }
    
    public struct FlightInfo: Codable {
-      public init(airport: FlightInformation.Airport, scheduledTimeUtc: Date, scheduledTimeLocal: Date, terminal: String? = nil, gate: String? = nil) {
+      public init(airport: FlightInformation.Airport,
+                  scheduledTimeUTC: Date,
+                  scheduledTimeLocal: Date,
+                  terminal: String? = nil,
+                  gate: String? = nil) {
          self.airport = airport
-         self.scheduledTimeUtc = scheduledTimeUtc
+         self.scheduledTimeUTC = scheduledTimeUTC
          self.scheduledTimeLocal = scheduledTimeLocal
          self.terminal = terminal
          self.gate = gate
       }
       
       public var airport: Airport
-      public var scheduledTimeUtc: Date
+      public var scheduledTimeUTC: Date
       public var scheduledTimeLocal: Date
       public var terminal: String?
       public var gate: String?
    }
    
    public struct Airport: Codable {
-      public init(id: UUID? = nil, icao: String, iata: String, name: String, shortName: String, municipalityName: String) {
+      public init(id: UUID? = nil, icao: String?, iata: String?, name: String, shortName: String?,
+                  municipalityName: String?, location: Location?) {
          self.id = id
          self.icao = icao
          self.iata = iata
          self.name = name
          self.shortName = shortName
          self.municipalityName = municipalityName
+         self.location = location
       }
       
       public var id: UUID? // TODO: This is the ID from the STRANDED API MODEL
-      public var icao: String
-      public var iata: String
+      public var icao: String?
+      public var iata: String?
       public var name: String
-      public var shortName: String
-      public var municipalityName: String
+      public var shortName: String?
+      public var municipalityName: String?
+      public var location: Location?
+      
    }
    
    public struct Location: Codable {
