@@ -178,11 +178,13 @@ public struct FlightInformation: Codable {
          let otherFormatter = DateFormatter() //"2021-10-28 12:15-05:00"
          otherFormatter.dateFormat = "yyyy-MM-dd HH:mmZ"
          
-         let scheduledTimeUTCString = try values.decode(String.self, forKey: .scheduledTimeUTC)
-         scheduledTimeUTC = utcFormatter.date(from: scheduledTimeUTCString)
+         if let scheduledTimeUTCString = try values.decode(String?.self, forKey: .scheduledTimeUTC) {
+            scheduledTimeUTC = utcFormatter.date(from: scheduledTimeUTCString)
+         }
          
-         let scheduledTimeLocalString = try values.decode(String.self, forKey: .scheduledTimeLocal)
-         scheduledTimeLocal = otherFormatter.date(from: scheduledTimeLocalString)
+         if let scheduledTimeLocalString = try values.decode(String?.self, forKey: .scheduledTimeLocal) {
+            scheduledTimeLocal = otherFormatter.date(from: scheduledTimeLocalString)
+         }
          
          airport = try values.decode(Airport.self, forKey: .airport)
          terminal = try values.decode(String.self, forKey: .terminal)
