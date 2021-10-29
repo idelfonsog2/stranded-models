@@ -139,7 +139,7 @@ public struct FlightInformation: Codable {
       let utcFormatter = DateFormatter() //"2021-10-28 17:15Z"
       utcFormatter.dateFormat = "yyyy-MM-dd HH:mm'Z'"
       let lastUpdatedUTCString = try values.decode(String.self, forKey: .lastUpdatedUtc)
-      lastUpdatedUTC = utcFormatter.date(from: lastUpdatedUTCString)
+      lastUpdatedUtc = utcFormatter.date(from: lastUpdatedUTCString)
       
       number = try values.decode(String.self, forKey: .number)
       status = try values.decode(String.self, forKey: .status)
