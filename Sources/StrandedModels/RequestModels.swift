@@ -258,7 +258,7 @@ extension String {
 }
 
 extension FlightInformation {
-   static func sample() -> FlightInformation? {
+   public static func sample() -> FlightInformation? {
        do {
            let data = try Data(contentsOf: FlightInformation.sampleURL)
            return try JSONDecoder().decode([FlightInformation].self, from: data).first!
