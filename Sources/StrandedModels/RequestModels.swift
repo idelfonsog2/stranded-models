@@ -197,11 +197,11 @@ public struct FlightInformation: Codable {
          let inputFormatter = DateFormatter()
          inputFormatter.dateFormat = "yyyy-MM-dd HH:mmZ"
          
-         if let scheduledTimeUTCString = try values.decodeIfPresent(String.self, forKey: .scheduledTimeUtc) {
+         if let scheduledTimeUTCString = try values.decodeIfPresent(String.self, forKey: .scheduledTimeLocal) {
             scheduledTimeUtc = utcFormatter.date(from: scheduledTimeUTCString)
          }
          
-         if let scheduledTimeLocalString = try values.decodeIfPresent(String.self, forKey: .scheduledTimeLocal) {
+         if let scheduledTimeLocalString = try values.decodeIfPresent(String.self, forKey: .scheduledTimeUtc) {
             scheduledTimeLocal = inputFormatter.date(from: scheduledTimeLocalString)
          }
          
@@ -254,5 +254,16 @@ extension String {
          }
          return Date()
       }
+   }
+}
+
+extension FlightInformation {
+   static func sample() -> FlightInformation? {
+       do {
+           let data = try Data(contentsOf: FlightInformation.sampleURL)
+           return try JSONDecoder().decode([FlightInformation].self, from: data).first!
+       } catch {
+           return nil
+       }
    }
 }
