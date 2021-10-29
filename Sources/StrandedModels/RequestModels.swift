@@ -104,7 +104,7 @@ public struct SubscriptionResponse: Codable {
 
 extension SubscriptionResponse.ItemSubscription: Hashable, Identifiable { }
 
-/// This is domain transfer object between third-party -> strandedAPI -> ios client
+/// This is domain transfer object between third-party -> strandedAPI -> iOS -> strandedAPI
 public struct FlightInformation: Codable {
    public static let sampleURL = Bundle.module.url(forResource: "flight_information", withExtension: "json")!
    
@@ -197,12 +197,22 @@ public struct FlightInformation: Codable {
          let inputFormatter = DateFormatter()
          inputFormatter.dateFormat = "yyyy-MM-dd HH:mmZ"
          
+         /// ScheduledTimeUTC Date + String
          if let scheduledTimeUTCString = try values.decodeIfPresent(String.self, forKey: .scheduledTimeLocal) {
             scheduledTimeUtc = utcFormatter.date(from: scheduledTimeUTCString)
          }
          
+         if let scheduledTimeUTCDate = try values.decodeIfPresent(Date.self, forKey: .scheduledTimeLocal) {
+            scheduledTimeUtc = scheduledTimeUTCDate
+         }
+         
+         /// scheduledTimeLocal Date + String
          if let scheduledTimeLocalString = try values.decodeIfPresent(String.self, forKey: .scheduledTimeUtc) {
             scheduledTimeLocal = inputFormatter.date(from: scheduledTimeLocalString)
+         }
+         
+         if let scheduledTimeLocalDate = try values.decodeIfPresent(Date.self, forKey: .scheduledTimeUtc) {
+            scheduledTimeLocal = scheduledTimeLocalDate
          }
          
          airport = try values.decode(Airport.self, forKey: .airport)
