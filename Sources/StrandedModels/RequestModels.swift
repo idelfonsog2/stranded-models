@@ -122,6 +122,15 @@ public struct FlightInformation: Codable {
       self.airline = airline
    }
    
+   enum CodingKeys: String, CodingKey {
+      case departure
+      case arrival
+      case lastUpdatedUTC
+      case number
+      case status
+      case airline
+   }
+   
    public init(from decoder: Decoder) throws {
       let values = try decoder.container(keyedBy: CodingKeys.self)
       departure = try values.decode(FlightInformation.FlightInfo.self, forKey: .departure)
@@ -170,6 +179,14 @@ public struct FlightInformation: Codable {
       public var scheduledTimeLocal: Date?
       public var terminal: String?
       public var gate: String?
+      
+      enum CodingKeys: String, CodingKey {
+         case airport
+         case scheduledTimeUTC
+         case scheduledTimeLocal
+         case terminal
+         case gate
+      }
       
       public init(from decoder: Decoder) throws {
          let values = try decoder.container(keyedBy: CodingKeys.self)
