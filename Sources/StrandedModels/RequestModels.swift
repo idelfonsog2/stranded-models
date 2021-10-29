@@ -110,13 +110,13 @@ public struct FlightInformation: Codable {
    
    public init(departure: FlightInformation.FlightInfo,
                arrival: FlightInformation.FlightInfo,
-               lastUpdatedUTC: Date,
+               lastUpdatedUtc: Date,
                number: String,
                status: String,
                airline: FlightInformation.Airline?) {
       self.departure = departure
       self.arrival = arrival
-      self.lastUpdatedUTC = lastUpdatedUTC
+      self.lastUpdatedUtc = lastUpdatedUtc
       self.number = number
       self.status = status
       self.airline = airline
@@ -125,7 +125,7 @@ public struct FlightInformation: Codable {
    enum CodingKeys: String, CodingKey {
       case departure
       case arrival
-      case lastUpdatedUTC
+      case lastUpdatedUtc
       case number
       case status
       case airline
@@ -138,7 +138,7 @@ public struct FlightInformation: Codable {
       
       let utcFormatter = DateFormatter() //"2021-10-28 17:15Z"
       utcFormatter.dateFormat = "yyyy-MM-dd HH:mm'Z'"
-      let lastUpdatedUTCString = try values.decode(String.self, forKey: .lastUpdatedUTC)
+      let lastUpdatedUTCString = try values.decode(String.self, forKey: .lastUpdatedUtc)
       lastUpdatedUTC = utcFormatter.date(from: lastUpdatedUTCString)
       
       number = try values.decode(String.self, forKey: .number)
@@ -148,7 +148,7 @@ public struct FlightInformation: Codable {
    
    public var departure: FlightInfo
    public var arrival: FlightInfo
-   public var lastUpdatedUTC: Date?
+   public var lastUpdatedUtc: Date?
    public var number: String
    public var status: String
    public var airline: Airline?
@@ -163,26 +163,26 @@ public struct FlightInformation: Codable {
    
    public struct FlightInfo: Codable {
       public init(airport: FlightInformation.Airport,
-                  scheduledTimeUTC: Date?,
+                  scheduledTimeUtc: Date?,
                   scheduledTimeLocal: Date?,
                   terminal: String? = nil,
                   gate: String? = nil) {
          self.airport = airport
-         self.scheduledTimeUTC = scheduledTimeUTC
+         self.scheduledTimeUtc = scheduledTimeUtc
          self.scheduledTimeLocal = scheduledTimeLocal
          self.terminal = terminal
          self.gate = gate
       }
       
       public var airport: Airport
-      public var scheduledTimeUTC: Date?
+      public var scheduledTimeUtc: Date?
       public var scheduledTimeLocal: Date?
       public var terminal: String?
       public var gate: String?
       
       enum CodingKeys: String, CodingKey {
          case airport
-         case scheduledTimeUTC
+         case scheduledTimeUtc
          case scheduledTimeLocal
          case terminal
          case gate
@@ -195,8 +195,8 @@ public struct FlightInformation: Codable {
          let otherFormatter = DateFormatter() //"2021-10-28 12:15-05:00"
          otherFormatter.dateFormat = "yyyy-MM-dd HH:mmZ"
          
-         if let scheduledTimeUTCString = try values.decode(String?.self, forKey: .scheduledTimeUTC) {
-            scheduledTimeUTC = utcFormatter.date(from: scheduledTimeUTCString)
+         if let scheduledTimeUTCString = try values.decode(String?.self, forKey: .scheduledTimeUtc) {
+            scheduledTimeUtc = utcFormatter.date(from: scheduledTimeUTCString)
          }
          
          if let scheduledTimeLocalString = try values.decode(String?.self, forKey: .scheduledTimeLocal) {
