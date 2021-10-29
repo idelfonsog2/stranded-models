@@ -202,7 +202,7 @@ public struct FlightInformation: Codable {
             scheduledTimeUtc = utcFormatter.date(from: scheduledTimeUTCString)
          }
          
-         if let scheduledTimeUTCDate = try values.decodeIfPresent(Date.self, forKey: .scheduledTimeUtc) {
+         if let scheduledTimeUTCDate = try? values.decodeIfPresent(Date.self, forKey: .scheduledTimeUtc) {
             scheduledTimeUtc = scheduledTimeUTCDate
          }
          
@@ -211,7 +211,7 @@ public struct FlightInformation: Codable {
             scheduledTimeLocal = inputFormatter.date(from: scheduledTimeLocalString)
          }
          
-         if let scheduledTimeLocalDate = try values.decodeIfPresent(Date.self, forKey: .scheduledTimeLocal) {
+         if let scheduledTimeLocalDate = try? values.decodeIfPresent(Date.self, forKey: .scheduledTimeLocal) {
             scheduledTimeLocal = scheduledTimeLocalDate
          }
          
