@@ -191,28 +191,35 @@ public struct FlightInformation: Codable {
       
       public init(from decoder: Decoder) throws {
          let values = try decoder.container(keyedBy: CodingKeys.self)
-         let utcFormatter = DateFormatter() //"2021-10-28 17:15Z"
-         utcFormatter.dateFormat = "yyyy-MM-dd HH:mm'Z'"
+         let utcAeroboxDateFormatter = DateFormatter()
+         utcAeroboxDateFormatter.dateFormat = "yyyy-MM-dd HH:mm'Z'"
 
-         let inputFormatter = DateFormatter()
-         inputFormatter.dateFormat = "yyyy-MM-dd HH:mmZ"
+         let localAeroBoxDateFormatter = DateFormatter()
+         localAeroBoxDateFormatter.dateFormat = "yyyy-MM-dd HH:mmZ"
+         
+         let apiDateFormatter = DateFormatter()
+         apiDateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mmLss'Z'"
          
          /// ScheduledTimeUTC Date + String
          if let scheduledTimeUTCString = try values.decodeIfPresent(String.self, forKey: .scheduledTimeUtc) {
-            scheduledTimeUtc = utcFormatter.date(from: scheduledTimeUTCString)
-         }
-         
-         if let scheduledTimeUTCDate = try? values.decodeIfPresent(Date.self, forKey: .scheduledTimeUtc) {
-            scheduledTimeUtc = scheduledTimeUTCDate
+            if let value = utcAeroboxDateFormatter.date(from: scheduledTimeUTCString) {
+               scheduledTimeUtc = value
+            }
+            
+            if let iso8601 = ISO8601DateFormatter().date(from: scheduledTimeUTCString) {
+               scheduledTimeUtc = iso8601
+            }
          }
          
          /// scheduledTimeLocal Date + String
          if let scheduledTimeLocalString = try values.decodeIfPresent(String.self, forKey: .scheduledTimeLocal) {
-            scheduledTimeLocal = inputFormatter.date(from: scheduledTimeLocalString)
-         }
-         
-         if let scheduledTimeLocalDate = try? values.decodeIfPresent(Date.self, forKey: .scheduledTimeLocal) {
-            scheduledTimeLocal = scheduledTimeLocalDate
+            if let value = localAeroBoxDateFormatter.date(from: scheduledTimeLocalString) {
+               scheduledTimeLocal = value
+            }
+            
+            if let iso8601 = ISO8601DateFormatter().date(from: scheduledTimeLocalString) {
+               scheduledTimeLocal = iso8601
+            }
          }
          
          airport = try values.decode(Airport.self, forKey: .airport)
