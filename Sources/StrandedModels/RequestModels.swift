@@ -58,6 +58,12 @@ extension User {
 
 /// This is domain transfer object
 public struct SubscriptionRequest: Codable {
+   public var airportId: UUID
+   public var departureDate: Date
+   public var gate: String?
+   public var terminal: String?
+   public var profileImage: Data?
+   
    public init(airportId: UUID, userId: UUID, departureDate: Date, gate: String? = nil, terminal: String? = nil, profileImage: Data? = nil) {
       self.airportId = airportId
       self.departureDate = departureDate
@@ -65,26 +71,27 @@ public struct SubscriptionRequest: Codable {
       self.terminal = terminal
       self.profileImage = profileImage
    }
-   
-   public var airportId: UUID
-   public var departureDate: Date
-   public var gate: String?
-   public var terminal: String?
-   public var profileImage: Data?
 }
 
 /// This is domain transfer object
 public struct SubscriptionResponse: Codable {
+   public var me: ItemSubscription
+   public var others: [ItemSubscription]
+   
    public init(me: SubscriptionResponse.ItemSubscription, others: [SubscriptionResponse.ItemSubscription]) {
       self.me = me
       self.others = others
    }
    
-   public var me: ItemSubscription
-   public var others: [ItemSubscription]
-   
    public struct ItemSubscription: Codable {
-      public init(id: UUID?, name: String? = nil, departureDate: Date?, gate: String? = nil, terminal: String? = nil, profileImage: Data? = nil) {
+      public var id: UUID?
+      public var name: String?
+      public var departureDate: Date
+      public var gate: String?
+      public var terminal: String?
+      public var profileImage: Data?
+      
+      public init(id: UUID?, name: String? = nil, departureDate: Date, gate: String? = nil, terminal: String? = nil, profileImage: Data? = nil) {
          self.id = id
          self.name = name
          self.departureDate = departureDate
@@ -93,12 +100,27 @@ public struct SubscriptionResponse: Codable {
          self.profileImage = profileImage
       }
       
-      public var id: UUID?
-      public var name: String?
-      public var departureDate: Date?
-      public var gate: String?
-      public var terminal: String?
-      public var profileImage: Data?
+      enum CodingKeys: String, CodingKey {
+         case id
+         case name
+         case departureDate
+         case gate
+         case terminal
+         case profileImage
+      }
+      
+      public init(from decoder: Decoder) throws {
+         let values = try decoder.container(keyedBy: CodingKeys.self)
+         id = try values.decode(UUID.self, forKey: .id)
+         name = try values.decode(String.self, forKey: .name)
+         
+         let dateValue = try values.decode(String.self, forKey: .departureDate)
+         departureDate = ISO8601DateFormatter().date(from: dateValue) ?? Date().addingTimeInterval(1000)
+         
+         gate = try values.decode(String.self, forKey: .gate)
+         terminal = try values.decode(String.self, forKey: .terminal)
+         profileImage = try values.decode(Data.self, forKey: .profileImage)
+      }
    }
 }
 
@@ -107,6 +129,13 @@ extension SubscriptionResponse.ItemSubscription: Hashable, Identifiable { }
 /// This is domain transfer object between third-party -> strandedAPI -> iOS -> strandedAPI
 public struct FlightInformation: Codable {
    public static let sampleURL = Bundle.module.url(forResource: "flight_information", withExtension: "json")!
+   
+   public var departure: FlightInfo
+   public var arrival: FlightInfo
+   public var lastUpdatedUtc: Date?
+   public var number: String
+   public var status: String
+   public var airline: Airline?
    
    public init(departure: FlightInformation.FlightInfo,
                arrival: FlightInformation.FlightInfo,
@@ -139,20 +168,19 @@ public struct FlightInformation: Codable {
       let utcFormatter = DateFormatter() //"2021-10-28 17:15Z"
       utcFormatter.dateFormat = "yyyy-MM-dd HH:mm'Z'"
       if let lastUpdatedUTCString = try values.decodeIfPresent(String.self, forKey: .lastUpdatedUtc) {
-         lastUpdatedUtc = utcFormatter.date(from: lastUpdatedUTCString)
+         if let value = utcFormatter.date(from: lastUpdatedUTCString) {
+            lastUpdatedUtc = value
+         }
+         
+         if let iso8601 = ISO8601DateFormatter().date(from: lastUpdatedUTCString) {
+            lastUpdatedUtc = iso8601
+         }
       }
       
       number = try values.decode(String.self, forKey: .number)
       status = try values.decode(String.self, forKey: .status)
       airline = try values.decodeIfPresent(Airline.self, forKey: .airline)
    }
-   
-   public var departure: FlightInfo
-   public var arrival: FlightInfo
-   public var lastUpdatedUtc: Date?
-   public var number: String
-   public var status: String
-   public var airline: Airline?
    
    public struct Airline: Codable {
       public init(name: String) {
@@ -197,9 +225,6 @@ public struct FlightInformation: Codable {
          let localAeroBoxDateFormatter = DateFormatter()
          localAeroBoxDateFormatter.dateFormat = "yyyy-MM-dd HH:mmZ"
          
-         let apiDateFormatter = DateFormatter()
-         apiDateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mmLss'Z'"
-         
          /// ScheduledTimeUTC Date + String
          if let scheduledTimeUTCString = try values.decodeIfPresent(String.self, forKey: .scheduledTimeUtc) {
             if let value = utcAeroboxDateFormatter.date(from: scheduledTimeUTCString) {
@@ -229,6 +254,14 @@ public struct FlightInformation: Codable {
    }
    
    public struct Airport: Codable {
+      public var id: UUID? // TODO: This is the ID from the STRANDED API MODEL
+      public var icao: String?
+      public var iata: String?
+      public var name: String
+      public var shortName: String?
+      public var municipalityName: String?
+      public var location: Location?
+      
       public init(id: UUID? = nil, icao: String?, iata: String?, name: String, shortName: String?,
                   municipalityName: String?, location: Location?) {
          self.id = id
@@ -239,25 +272,15 @@ public struct FlightInformation: Codable {
          self.municipalityName = municipalityName
          self.location = location
       }
-      
-      public var id: UUID? // TODO: This is the ID from the STRANDED API MODEL
-      public var icao: String?
-      public var iata: String?
-      public var name: String
-      public var shortName: String?
-      public var municipalityName: String?
-      public var location: Location?
-      
    }
    
    public struct Location: Codable {
+      public var lat: Double
+      public var lon: Double
       public init(lat: Double, lon: Double) {
          self.lat = lat
          self.lon = lon
       }
-      
-      public var lat: Double
-      public var lon: Double
    }
 }
 
