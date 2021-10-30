@@ -111,15 +111,15 @@ public struct SubscriptionResponse: Codable {
       
       public init(from decoder: Decoder) throws {
          let values = try decoder.container(keyedBy: CodingKeys.self)
-         id = try values.decode(UUID.self, forKey: .id)
-         name = try values.decode(String.self, forKey: .name)
+         id = try values.decode(UUID?.self, forKey: .id)
+         name = try values.decode(String?.self, forKey: .name)
          
          let dateValue = try values.decode(String.self, forKey: .departureDate)
          departureDate = ISO8601DateFormatter().date(from: dateValue) ?? Date().addingTimeInterval(1000)
          
-         gate = try values.decode(String.self, forKey: .gate)
-         terminal = try values.decode(String.self, forKey: .terminal)
-         profileImage = try values.decode(Data.self, forKey: .profileImage)
+         gate = try values.decode(String?.self, forKey: .gate)
+         terminal = try values.decode(String?.self, forKey: .terminal)
+         profileImage = try values.decode(Data?.self, forKey: .profileImage)
       }
    }
 }
