@@ -58,7 +58,7 @@ extension User {
 
 /// This is domain transfer object
 public struct SubscriptionRequest: Codable {
-   public init(airportId: UUID, userId: UUID, departureDate: Date?, gate: String? = nil, terminal: String? = nil, profileImage: Data? = nil) {
+   public init(airportId: UUID, userId: UUID, departureDate: Date, gate: String? = nil, terminal: String? = nil, profileImage: Data? = nil) {
       self.airportId = airportId
       self.departureDate = departureDate
       self.gate = gate
@@ -67,7 +67,7 @@ public struct SubscriptionRequest: Codable {
    }
    
    public var airportId: UUID
-   public var departureDate: Date?
+   public var departureDate: Date
    public var gate: String?
    public var terminal: String?
    public var profileImage: Data?
