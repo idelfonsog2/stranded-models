@@ -64,7 +64,7 @@ public struct SubscriptionRequest: Codable {
    public var terminal: String?
    public var profileImage: Data?
    
-   public init(airportId: UUID, userId: UUID, departureDate: Date, gate: String? = nil, terminal: String? = nil, profileImage: Data? = nil) {
+   public init(airportId: UUID, departureDate: Date, gate: String? = nil, terminal: String? = nil, profileImage: Data? = nil) {
       self.airportId = airportId
       self.departureDate = departureDate
       self.gate = gate
