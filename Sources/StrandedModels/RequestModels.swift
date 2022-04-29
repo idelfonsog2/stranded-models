@@ -7,6 +7,15 @@
 
 import Foundation
 
+#if swift(>=5.6)
+extension SubscriptionResponse: @unchecked Sendable {}
+extension SubscriptionResponse.ItemSubscription: @unchecked Sendable {}
+extension SubscriptionRequest: @unchecked Sendable {}
+extension FlightInformation: @unchecked  Sendable {}
+extension Date: @unchecked Sendable {}
+extension UUID: @unchecked Sendable {}
+#endif
+
 public enum APIError: Error {
    case signInWithApple
    case malformedURL
@@ -127,7 +136,7 @@ public struct SubscriptionResponse: Codable {
 extension SubscriptionResponse.ItemSubscription: Hashable, Identifiable { }
 
 /// This is domain transfer object between third-party -> strandedAPI -> iOS -> strandedAPI
-public struct FlightInformation: Codable {
+public struct FlightInformation: Codable, Equatable {
    public static let sampleURL = Bundle.module.url(forResource: "flight_information", withExtension: "json")!
    
    public var departure: FlightInfo
@@ -182,7 +191,7 @@ public struct FlightInformation: Codable {
       airline = try values.decodeIfPresent(Airline.self, forKey: .airline)
    }
    
-   public struct Airline: Codable {
+   public struct Airline: Codable, Equatable {
       public init(name: String) {
          self.name = name
       }
@@ -190,7 +199,7 @@ public struct FlightInformation: Codable {
       public var name: String
    }
    
-   public struct FlightInfo: Codable {
+   public struct FlightInfo: Codable, Equatable {
       public init(airport: FlightInformation.Airport,
                   scheduledTimeUtc: Date?,
                   scheduledTimeLocal: Date?,
@@ -253,7 +262,7 @@ public struct FlightInformation: Codable {
       }
    }
    
-   public struct Airport: Codable {
+   public struct Airport: Codable, Equatable {
       public var id: UUID? // TODO: This is the ID from the STRANDED API MODEL
       public var icao: String?
       public var iata: String?
@@ -274,7 +283,7 @@ public struct FlightInformation: Codable {
       }
    }
    
-   public struct Location: Codable {
+   public struct Location: Codable, Equatable {
       public var lat: Double
       public var lon: Double
       public init(lat: Double, lon: Double) {
