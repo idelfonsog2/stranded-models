@@ -17,13 +17,13 @@ extension UUID: @unchecked Sendable {}
 extension Data: @unchecked Sendable {}
 #endif
 
-public enum APIError: Error {
+public enum APIError: Error, Equatable {
    case signInWithApple
    case malformedURL
 }
 
 /// This is domain transfer object
-public struct UserRequest: Codable {
+public struct UserRequest: Codable, Equatable {
    public var id: UUID?
    public var name: String?
    public var email: String?
@@ -67,7 +67,7 @@ extension User {
 }
 
 /// This is domain transfer object
-public struct SubscriptionRequest: Codable {
+public struct SubscriptionRequest: Codable, Equatable {
    public var airportId: UUID
    public var departureDate: Date
    public var gate: String?
@@ -84,7 +84,7 @@ public struct SubscriptionRequest: Codable {
 }
 
 /// This is domain transfer object
-public struct SubscriptionResponse: Codable {
+public struct SubscriptionResponse: Codable, Equatable {
    public var me: ItemSubscription
    public var others: [ItemSubscription]
    
@@ -93,7 +93,7 @@ public struct SubscriptionResponse: Codable {
       self.others = others
    }
    
-   public struct ItemSubscription: Codable {
+   public struct ItemSubscription: Codable, Equatable {
       public var id: UUID?
       public var name: String?
       public var departureDate: Date
