@@ -14,6 +14,7 @@ extension SubscriptionRequest: @unchecked Sendable {}
 extension FlightInformation: @unchecked  Sendable {}
 extension Date: @unchecked Sendable {}
 extension UUID: @unchecked Sendable {}
+extension Data: @unchecked Sendable {}
 #endif
 
 public enum APIError: Error {
