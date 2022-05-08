@@ -9,6 +9,7 @@ import Foundation
 import Fluent
 import FluentPostgresDriver
 import Vapor
+import Crypto
 
 final class Token: Model, Content {
     static let schema = "tokens"
@@ -41,7 +42,6 @@ extension Token {
 // NOTE: use the token with HTTP Bearer Authentication
 // 1bearer authentication` authenticates requests
 extension Token: ModelTokenAuthenticatable {
-    typealias User = StrandedAPI.User
     static let userKey = \Token.$user
     static let valueKey = \Token.$value
     
