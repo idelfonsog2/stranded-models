@@ -6,42 +6,6 @@
 //
 
 import Foundation
-import FluentPostgresDriver
-
-final class Subscription: Model {
-   
-   static let schema: String = "subscription"
-   
-   @ID(key: .id)
-   var id: UUID?
-   
-   @Parent(key: "airport_id")
-   var airport: Airport
-   
-   @OptionalParent(key: "user_id")
-   var user: User?
-   
-   @Field(key: "departure_date")
-   var departureDate: Date
-   
-   @OptionalField(key: "terminal")
-   var terminal: String?
-   
-   @OptionalField(key: "gate")
-   var gate: String?
-   
-   init() { }
-   
-   init(id: IDValue? = nil, terminal: String?, gate: String?, departureDate: Date, airportID: Airport.IDValue) {
-      self.id = id
-      self.terminal = terminal
-      self.gate = gate
-      self.departureDate = departureDate
-      self.$airport.id = airportID
-   }
-}
-
-extension Subscription: Codable {}
 
 /// This is domain transfer object
 public struct SubscriptionRequest: Codable, Equatable {

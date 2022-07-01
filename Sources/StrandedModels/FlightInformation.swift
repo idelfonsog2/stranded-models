@@ -7,17 +7,6 @@
 
 import Foundation
 
-#if swift(>=5.6)
-extension Date: @unchecked Sendable {}
-extension UUID: @unchecked Sendable {}
-extension Data: @unchecked Sendable {}
-#endif
-
-public enum APIError: Error, Equatable {
-   case signInWithApple
-   case malformedURL
-}
-
 public enum FlightStatus: String, Equatable, Codable {
     case unknown = "Unknown"
     case expected = "Expected"
@@ -186,20 +175,6 @@ public struct FlightInformation: Codable, Equatable {
       public init(lat: Double, lon: Double) {
          self.lat = lat
          self.lon = lon
-      }
-   }
-}
-
-
-extension String {
-   var internetDate: Date {
-      get throws {
-         let f = DateFormatter()
-         f.dateFormat = "yyyy-MM-dd HH:mmZ"
-         if let date = f.date(from: self) {
-            return date
-         }
-         return Date()
       }
    }
 }
