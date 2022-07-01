@@ -8,10 +8,6 @@
 import Foundation
 
 #if swift(>=5.6)
-extension SubscriptionResponse: @unchecked Sendable {}
-extension SubscriptionResponse.ItemSubscription: @unchecked Sendable {}
-extension SubscriptionRequest: @unchecked Sendable {}
-extension FlightInformation: @unchecked  Sendable {}
 extension Date: @unchecked Sendable {}
 extension UUID: @unchecked Sendable {}
 extension Data: @unchecked Sendable {}
@@ -22,20 +18,36 @@ public enum APIError: Error, Equatable {
    case malformedURL
 }
 
+public enum FlightStatus: String, Equatable, Codable {
+    case unknown = "Unknown"
+    case expected = "Expected"
+    case enRoute = "EnRoute"
+    case checkIn = "CheckIn"
+    case boarding = "Boarding"
+    case gateClosed = "GateClosed"
+    case departed = "Departed"
+    case delayed = "Delayed"
+    case approaching = "Approaching"
+    case arrived = "Arrived"
+    case canceled = "Canceled"
+    case diverted = "Diverted"
+    case canceledUncertain = "CanceledUncertain"
+}
+
 /// This is domain transfer object between third-party -> strandedAPI -> iOS -> strandedAPI
 public struct FlightInformation: Codable, Equatable {
    public var departure: FlightInfo
    public var arrival: FlightInfo
    public var lastUpdatedUtc: Date?
    public var number: String
-   public var status: String
+   public var status: FlightStatus
    public var airline: Airline?
    
    public init(departure: FlightInformation.FlightInfo,
                arrival: FlightInformation.FlightInfo,
                lastUpdatedUtc: Date,
                number: String,
-               status: String,
+               status: FlightStatus,
                airline: FlightInformation.Airline?) {
       self.departure = departure
       self.arrival = arrival
@@ -72,7 +84,7 @@ public struct FlightInformation: Codable, Equatable {
       }
       
       number = try values.decode(String.self, forKey: .number)
-      status = try values.decode(String.self, forKey: .status)
+      status = try values.decode(FlightStatus.self, forKey: .status)
       airline = try values.decodeIfPresent(Airline.self, forKey: .airline)
    }
    
