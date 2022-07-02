@@ -8,11 +8,11 @@
 import Foundation
 import FluentKit
 
-final class Token: Model {
-    static let schema = "tokens"
+final public class Token: Model {
+    public static let schema = "tokens"
     
     @ID
-    var id: UUID?
+    public var id: UUID?
     
     @Field(key: "value")
     var value: String
@@ -20,9 +20,9 @@ final class Token: Model {
     @Parent(key: "user_id")
     var user: User
     
-    init() {}
+    public init() {}
     
-    init(id: UUID? = nil, value: String, userID: User.IDValue) {
+    public init(id: UUID? = nil, value: String, userID: User.IDValue) {
         self.id = id
         self.value = value
         self.$user.id = userID
