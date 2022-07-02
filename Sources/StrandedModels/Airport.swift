@@ -15,13 +15,13 @@ final public class Airport: Model {
     public var id: UUID?
     
     @Children(for: \.$airport)
-    var subscriptions: [Subscription]
+    public var subscriptions: [Subscription]
     
     @OptionalField(key: "iata_code")
-    var iataCode: String?
+    public var iataCode: String?
     
     @Field(key: "name")
-    var name: String
+    public var name: String
     
     public init() { }
     
