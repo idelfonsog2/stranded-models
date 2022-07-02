@@ -64,9 +64,9 @@ final public class UserPublic: Codable {
 final public class UserPrivate: Codable {
     public var apiToken: String
     public var id: String
-    public init(apiToken: String, user: User) throws {
+    public init(apiToken: String, id: String) throws {
         self.apiToken = apiToken
-        self.id = try user.requireID().uuidString
+        self.id = id
     }
 }
 
