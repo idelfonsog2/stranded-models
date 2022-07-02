@@ -51,7 +51,7 @@ final public class User: Model {
 
 
 // MARK: - Public DTO
-final public class UserPublic {
+final public class UserPublic: Codable {
     public var name: String?
     public var profileImage: Data?
     
@@ -61,7 +61,7 @@ final public class UserPublic {
     }
 }
 // MARK: - Private DTO
-final public class UserPrivate {
+final public class UserPrivate: Codable {
     public var apiToken: String
     public var id: UUID
     public init(apiToken: String, user: User) throws {
