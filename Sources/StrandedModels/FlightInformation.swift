@@ -149,7 +149,7 @@ public struct FlightInformation: Codable, Equatable {
    }
    
    public struct Airport: Codable, Equatable {
-      public var id: UUID? // TODO: This is the ID from the STRANDED API MODEL
+      public var id: String? // TODO: This is the ID from the STRANDED API MODEL
       public var icao: String?
       public var iata: String?
       public var name: String
@@ -157,7 +157,7 @@ public struct FlightInformation: Codable, Equatable {
       public var municipalityName: String?
       public var location: Location?
       
-      public init(id: UUID? = nil, icao: String?, iata: String?, name: String, shortName: String?,
+      public init(id: String? = nil, icao: String?, iata: String?, name: String, shortName: String?,
                   municipalityName: String?, location: Location?) {
          self.id = id
          self.icao = icao
