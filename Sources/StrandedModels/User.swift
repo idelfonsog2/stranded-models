@@ -49,37 +49,36 @@ final public class User: Model {
     }
 }
 
-extension User {
-    // MARK: - Public DTO
-    final public class Public {
-        public var name: String?
-        public var profileImage: Data?
-        
-        public init(name: String?, profileImage: Data?) {
-            self.name = name
-            self.profileImage = profileImage
-        }
+
+// MARK: - Public DTO
+final public class UserPublic {
+    public var name: String?
+    public var profileImage: Data?
+    
+    public init(name: String?, profileImage: Data?) {
+        self.name = name
+        self.profileImage = profileImage
     }
-    // MARK: - Private DTO
-    final public class Private {
-        public var apiToken: String
-        public var id: UUID
-        public init(apiToken: String, user: User) throws {
-            self.apiToken = apiToken
-            self.id = try user.requireID()
-        }
+}
+// MARK: - Private DTO
+final public class UserPrivate {
+    public var apiToken: String
+    public var id: UUID
+    public init(apiToken: String, user: User) throws {
+        self.apiToken = apiToken
+        self.id = try user.requireID()
     }
 }
 
 // MARK: - DTO return
 extension User {
-    public func convertToPublic() -> User.Public {
-        return User.Public(name: name, profileImage: profileImage)
+    public func convertToPublic() -> UserPublic {
+        return UserPublic(name: name, profileImage: profileImage)
     }
 }
 
 extension Collection where Element: User {
-    public func convertToPublic() -> [User.Public] {
+    public func convertToPublic() -> [UserPublic] {
         return self.map { $0.convertToPublic() }
     }
 }
