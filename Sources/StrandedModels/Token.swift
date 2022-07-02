@@ -15,10 +15,10 @@ final public class Token: Model {
     public var id: UUID?
     
     @Field(key: "value")
-    var value: String
+    public var value: String
     
     @Parent(key: "user_id")
-    var user: User
+    public var user: User
     
     public init() {}
     

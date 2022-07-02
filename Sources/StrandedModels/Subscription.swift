@@ -16,19 +16,19 @@ final public class Subscription: Model {
     public var id: UUID?
     
     @Parent(key: "airport_id")
-    var airport: Airport
+    public var airport: Airport
     
     @OptionalParent(key: "user_id")
-    var user: User?
+    public var user: User?
     
     @Field(key: "departure_date")
-    var departureDate: Date
+    public var departureDate: Date
     
     @OptionalField(key: "terminal")
-    var terminal: String?
+    public var terminal: String?
     
     @OptionalField(key: "gate")
-    var gate: String?
+    public var gate: String?
     
     public init() { }
     

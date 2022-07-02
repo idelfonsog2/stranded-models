@@ -15,22 +15,22 @@ final public class User: Model {
     public var id: UUID?
     
     @OptionalChild(for: \Subscription.$user)
-    var subscription: Subscription?
+    public var subscription: Subscription?
     
     @OptionalField(key: "device_token")
-    var deviceToken: String?
+    public var deviceToken: String?
     
     @Field(key: "name")
-    var name: String
+    public var name: String
     
     @Field(key: "email")
-    var email: String
+    public var email: String
     
     @OptionalField(key: "profile_image")
-    var profileImage: Data?
+    public var profileImage: Data?
     
     @OptionalField(key: "appleUserIdentifier")
-    var appleUserIdentifier: String?
+    public var appleUserIdentifier: String?
     
     public init() {}
     
@@ -52,8 +52,8 @@ final public class User: Model {
 extension User {
     // MARK: - Public DTO
     final public class Public {
-        var name: String?
-        var profileImage: Data?
+        public var name: String?
+        public var profileImage: Data?
         
         public init(name: String?, profileImage: Data?) {
             self.name = name
@@ -62,8 +62,8 @@ extension User {
     }
     // MARK: - Private DTO
     final public class Private {
-        var apiToken: String
-        var id: UUID
+        public var apiToken: String
+        public var id: UUID
         public init(apiToken: String, user: User) throws {
             self.apiToken = apiToken
             self.id = try user.requireID()
