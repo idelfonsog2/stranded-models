@@ -4,7 +4,7 @@
 import PackageDescription
 
 let package = Package(
-    name: "StrandedModels",
+    name: "stranded-models",
     platforms: [.iOS(.v13), .macOS(.v12)],
     products: [
         .library(name: "StrandedModels", targets: ["StrandedModels"]),
