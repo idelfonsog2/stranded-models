@@ -64,11 +64,11 @@ extension User {
     // MARK: - Private DTO
     final public class Private: Codable {
         public var apiToken: String
-        public var id: String
+        public var id: UUID
         
-        public init(apiToken: String, id: UUID) {
+        public init(apiToken: String, user: User) throws {
             self.apiToken = apiToken
-            self.id = id.uuidString
+            self.id = try user.requireID()
         }
     }
 }
