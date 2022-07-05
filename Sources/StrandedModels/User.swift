@@ -51,34 +51,37 @@ final public class User: Model {
 
 
 // MARK: - Public DTO
-final public class UserPublic: Codable {
-    public var name: String?
-    public var profileImage: Data?
-    
-    public init(name: String?, profileImage: Data?) {
-        self.name = name
-        self.profileImage = profileImage
+extension User {
+    final public class Public: Codable {
+        public var name: String?
+        public var profileImage: Data?
+        
+        public init(name: String?, profileImage: Data?) {
+            self.name = name
+            self.profileImage = profileImage
+        }
     }
-}
-// MARK: - Private DTO
-final public class UserPrivate: Codable {
-    public var apiToken: String
-    public var id: String
-    public init(apiToken: String, id: String) throws {
-        self.apiToken = apiToken
-        self.id = id
+    // MARK: - Private DTO
+    final public class Private: Codable {
+        public var apiToken: String
+        public var id: UUID
+        
+        public init(apiToken: String, id: UUID) {
+            self.apiToken = apiToken
+            self.id = id
+        }
     }
 }
 
 // MARK: - DTO return
 extension User {
-    public func convertToPublic() -> UserPublic {
-        return UserPublic(name: name, profileImage: profileImage)
+    public func convertToPublic() -> User.Public {
+        return User.Public(name: name, profileImage: profileImage)
     }
 }
 
 extension Collection where Element: User {
-    public func convertToPublic() -> [UserPublic] {
+    public func convertToPublic() -> [User.Public] {
         return self.map { $0.convertToPublic() }
     }
 }
