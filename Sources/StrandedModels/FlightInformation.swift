@@ -7,7 +7,7 @@
 
 import Foundation
 
-public enum FlightStatus: String, Equatable, Codable {
+public enum FlightStatus: String, Sendable, Equatable, Codable {
     case unknown = "Unknown"
     case expected = "Expected"
     case enRoute = "EnRoute"
@@ -24,7 +24,7 @@ public enum FlightStatus: String, Equatable, Codable {
 }
 
 /// This is domain transfer object between third-party -> strandedAPI -> iOS -> strandedAPI
-public struct FlightInformation: Codable, Equatable {
+public struct FlightInformation: Sendable, Codable, Equatable {
    public var departure: FlightInfo
    public var arrival: FlightInfo
    public var lastUpdatedUtc: Date?
@@ -77,7 +77,7 @@ public struct FlightInformation: Codable, Equatable {
       airline = try values.decodeIfPresent(Airline.self, forKey: .airline)
    }
    
-   public struct Airline: Codable, Equatable {
+   public struct Airline: Sendable, Codable, Equatable {
       public init(name: String) {
          self.name = name
       }
@@ -85,7 +85,7 @@ public struct FlightInformation: Codable, Equatable {
       public var name: String
    }
    
-   public struct FlightInfo: Codable, Equatable {
+   public struct FlightInfo: Sendable, Codable, Equatable {
       public init(airport: FlightInformation.Airport,
                   scheduledTimeUtc: Date?,
                   scheduledTimeLocal: Date?,
@@ -148,7 +148,7 @@ public struct FlightInformation: Codable, Equatable {
       }
    }
    
-   public struct Airport: Codable, Equatable {
+   public struct Airport: Sendable, Codable, Equatable {
       public var id: UUID? // TODO: This is the ID from the STRANDED API MODEL
       public var icao: String?
       public var iata: String?
@@ -169,7 +169,7 @@ public struct FlightInformation: Codable, Equatable {
       }
    }
    
-   public struct Location: Codable, Equatable {
+   public struct Location: Sendable, Codable, Equatable {
       public var lat: Double
       public var lon: Double
       public init(lat: Double, lon: Double) {

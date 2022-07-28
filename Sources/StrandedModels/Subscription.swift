@@ -43,7 +43,7 @@ final public class Subscription: Model {
 
 
 /// This is domain transfer object
-public struct SubscriptionRequest: Codable, Equatable {
+public struct SubscriptionRequest: Sendable, Codable, Equatable {
     public var airportId: UUID
     public var departureDate: Date
     public var gate: String?
@@ -60,7 +60,7 @@ public struct SubscriptionRequest: Codable, Equatable {
 }
 
 /// This is domain transfer object
-public struct SubscriptionResponse: Codable, Equatable {
+public struct SubscriptionResponse: Sendable, Codable, Equatable {
     public var me: ItemSubscription
     public var others: [ItemSubscription]
     
@@ -69,7 +69,7 @@ public struct SubscriptionResponse: Codable, Equatable {
         self.others = others
     }
     
-    public struct ItemSubscription: Codable, Equatable {
+    public struct ItemSubscription: Sendable, Codable, Equatable {
         public var id: UUID?
         public var name: String?
         public var departureDate: Date
