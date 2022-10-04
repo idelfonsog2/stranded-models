@@ -66,9 +66,9 @@ extension User {
         public var apiToken: String
         public var id: UUID
         
-        public init(apiToken: String, user: User) throws {
+        public init(apiToken: String, userID: UUID) {
             self.apiToken = apiToken
-            self.id = try user.requireID()
+            self.id = userID
         }
     }
 }

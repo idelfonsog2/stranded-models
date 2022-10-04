@@ -11,8 +11,8 @@ import FluentKit
 final public class Airport: Model {
     public static let schema: String = "airport"
     
-    @ID(key: .id)
-    public var id: UUID?
+    @ID(custom: "id", generatedBy: .user)
+    public var id: String?
     
     @Children(for: \.$airport)
     public var subscriptions: [Subscription]
