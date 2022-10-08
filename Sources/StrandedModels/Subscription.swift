@@ -44,13 +44,13 @@ final public class Subscription: Model {
 
 /// This is domain transfer object
 public struct SubscriptionRequest: Sendable, Codable, Equatable {
-    public var airportId: UUID
+    public var airportId: String
     public var departureDate: Date
     public var gate: String?
     public var terminal: String?
     public var profileImage: Data?
     
-    public init(airportId: UUID, departureDate: Date, gate: String? = nil, terminal: String? = nil, profileImage: Data? = nil) {
+    public init(airportId: String, departureDate: Date, gate: String? = nil, terminal: String? = nil, profileImage: Data? = nil) {
         self.airportId = airportId
         self.departureDate = departureDate
         self.gate = gate

@@ -29,15 +29,40 @@
 /// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 /// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 /// THE SOFTWARE.
+import Foundation
 
 public struct SIWARequestBody: Codable {
-    public init(name: String?, email: String?, appleIdentityToken: String) {
-        self.name = name
+    public init(id: String, email: String? = nil, state: String? = nil, authorizationCode: Data? = nil, name: String? = nil, identityToken: Data? = nil, apiToken: String? = nil) {
+        self.id = id
         self.email = email
-        self.appleIdentityToken = appleIdentityToken
+        self.state = state
+        self.authorizationCode = authorizationCode
+        self.name = name
+        self.identityToken = identityToken
+        self.apiToken = apiToken
     }
     
-    public let name: String?
+    /// Apple user identifier.  Remember it might be a relay!
+    public let id: String
+    
+    /// The email address to use for user communications.  Remember it might be a relay!
     public let email: String?
-    public let appleIdentityToken: String
+    
+    /** @abstract A copy of the state value that was passed to ASAuthorizationRequest.
+     */
+    public let state: String?
+    
+    /** @abstract A short-lived, one-time valid token that provides proof of authorization to the server component of the app. The authorization code is bound to the specific transaction using the state attribute passed in the authorization request. The server component of the app can validate the code using Apple’s identity service endpoint provided for this purpose.
+     */
+    public let authorizationCode: Data?
+    
+    /// The components which make up the user's name.  See `displayName(style:)`
+    public let name: String?
+    
+    /** @abstract A JSON Web Token (JWT) used to communicate information about the identity of the user in a secure way to the app. The ID token will contain the following information: Issuer Identifier, Subject Identifier, Audience, Expiry Time and Issuance Time signed by Apple's identity service.
+     */
+    public let identityToken: Data?
+    
+    /// The Stranded API JWT token
+    public let apiToken: String?
 }

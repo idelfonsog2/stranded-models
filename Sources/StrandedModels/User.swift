@@ -11,8 +11,8 @@ import FluentKit
 final public class User: Model {
     public static let schema: String = "users"
     
-    @ID(custom: "id", generatedBy: .random)
-    public var id: UUID?
+    @ID(custom: "id", generatedBy: .user)
+    public var id: String?
     
     @OptionalChild(for: \Subscription.$user)
     public var subscription: Subscription?
